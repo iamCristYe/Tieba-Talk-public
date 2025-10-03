@@ -1,0 +1,57 @@
+name: Scheduled Trigger
+
+on:
+  schedule:
+    - cron: '30 2-22/4 * * *'
+  workflow_dispatch:
+
+jobs:
+  trigger:
+    runs-on: ubuntu-latest
+
+    steps:
+    # - name: Checkout public repo
+    #   uses: actions/checkout@v4
+
+    # - name: Set up Python
+    #   uses: actions/setup-python@v5
+    #   with:
+    #     python-version: '3.x'
+
+    # - name: Install dependencies
+    #   run: |
+    #     python -m pip install --upgrade pip
+    #     pip install requests  # Minimal for any quick checks if needed
+
+    - name: Poll for condition and run task
+      run: |
+        #!/bin/bash
+        while true; do
+          current_hour=$(date +%H)
+          if (( 10#$current_hour % 4 == 0 )); then
+            break
+          fi
+          sleep 50
+        done
+        echo "Condition met! Task executed at $(date '+%Y-%m-%d %H:%M:%S')"
+        # Add your actual commands here (e.g., deploy, test)
+        
+        # Loop 24 times: Optional quick check, trigger scraper-runner workflow, sleep 1 hour
+        for i in {1..24}; do
+          echo "Loop iteration $i/24 at $(date '+%Y-%m-%d %H:%M:%S')"
+          
+          # Optional: Add a quick Python check here if needed (e.g., echo "Pre-trigger check")
+          echo "Pre-trigger check complete."
+          
+          # Trigger the scraper-runner workflow
+          curl -X POST \
+            -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
+            -H "Accept: application/vnd.github.v3+json" \
+            https://api.github.com/repos/iamcristye/Tieba-Talk-Public/actions/workflows/scraper-runner.yml/dispatches \
+            -d '{"ref":"main"}'
+          
+          echo "Triggered scraper-runner workflow. Sleeping 600s..."
+          sleep 600
+        done
+        
+        echo "Hourly loop completed."
