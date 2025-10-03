@@ -45,7 +45,7 @@ jobs:
           
           # Trigger the scraper-runner workflow
           curl -X POST \
-            -H "Authorization: Bearer ${{ secrets.PAT_TOKEN }}" \
+            -H "Authorization: Bearer ${{ secrets.PAT_GITHUB }}" \
             -H "Accept: application/vnd.github.v3+json" \
             https://api.github.com/repos/iamcristye/Tieba-Talk-Public/actions/workflows/scraper-runner.yml/dispatches \
             -d '{"ref":"main"}'
