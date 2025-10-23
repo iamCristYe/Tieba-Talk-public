@@ -37,7 +37,7 @@ jobs:
         # Add your actual commands here (e.g., deploy, test)
         
         # Loop 24 times: Optional quick check, trigger scraper-runner workflow, sleep 1 hour
-        for i in {1..24}; do
+        for i in {1..8}; do
           echo "Loop iteration $i/24 at $(date '+%Y-%m-%d %H:%M:%S')"
           
           # Optional: Add a quick Python check here if needed (e.g., echo "Pre-trigger check")
@@ -55,7 +55,7 @@ jobs:
           # echo ${{ secrets.WORKERS_URL }}"
 
           echo "Triggered scraper-runner workflow. Sleeping 600s..."
-          sleep 600
+          sleep 1800
         done
         
         echo "Hourly loop completed."
