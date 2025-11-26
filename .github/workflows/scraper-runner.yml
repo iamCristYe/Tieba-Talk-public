@@ -23,6 +23,7 @@ jobs:
         run: |
           cd Tieba-Talk
           pip install requests
+          pip install aiotieba
 
       - name: Run Scraper
         env:
