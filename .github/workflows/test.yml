@@ -32,7 +32,7 @@ jobs:
           TELEGRAM_CHAT_ID_TALK: ${{ secrets.TELEGRAM_CHAT_ID_TALK }}
         run: |
           cd Tieba-Talk
-          python aiotieba_test.py.py
+          python aiotieba_test.py
 
       - name: Commit and Push Changes
         run: |
