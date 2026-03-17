@@ -2,7 +2,9 @@ name: Scraper Runner
 
 on:
   workflow_dispatch:  # Only triggered by dispatch (from scheduled-trigger or manually)
-
+concurrency:
+  group: tieba-talk-serial-global     # any constant string => single global queue for workflow
+  cancel-in-progress: false    # do NOT cancel; queue instead
 jobs:
   scrape:
     runs-on: ubuntu-latest
