@@ -24,10 +24,10 @@ jobs:
       - name: Install aiotieba
         run: |
           pip install requests
-          # pip install aiotieba
-          git clone https://github.com/iamcristye/aiotieba/
-          cd aiotieba
-          pip install -e .
+          pip install aiotieba
+          # git clone https://github.com/iamcristye/aiotieba/
+          # cd aiotieba
+          # pip install -e .
           
       - name: Install Dependencies
         run: |
