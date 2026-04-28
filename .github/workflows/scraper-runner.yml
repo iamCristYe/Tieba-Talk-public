@@ -1,4 +1,4 @@
-name: Scraper Runner
+name: Scraper
 
 on:
   workflow_dispatch:  # Only triggered by dispatch (from scheduled-trigger or manually)
@@ -58,3 +58,19 @@ jobs:
           else
             echo "No changes to commit."
           fi
+          
+      - name: Poll for condition and run task
+        run: |
+          echo "$(date '+%Y-%m-%d %H:%M:%S')"
+          echo "Triggered scraper-runner workflow. Sleeping 600s..."
+          sleep 600
+          echo "$(date '+%Y-%m-%d %H:%M:%S')"
+
+          curl -X POST \
+              -H "Authorization: Bearer ${{ secrets.PAT_GITHUB }}" \
+              -H "Accept: application/vnd.github.v3+json" \
+              https://api.github.com/repos/iamcristye/Tieba-Talk-Public/actions/workflows/scraper-runner.yml/dispatches \
+              -d '{"ref":"main"}'
+ 
+        env:
+          PAT_GITHUB: ${{ secrets.PAT_GITHUB }}
